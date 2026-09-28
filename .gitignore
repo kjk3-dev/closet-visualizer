@@ -1,0 +1,18 @@
+# Eclipse関連
+.classpath
+.project
+.settings/
+bin/
+
+# OS関連
+.DS_Store
+Thumbs.db
+
+# 設定ファイル
+db.properties
+
+# 外部ライブラリ
+lib/*.jar
+
+# 作業用ファイル
+sources.txt
