@@ -307,7 +307,7 @@ public class Main {
 			int colorWidth = 12;
 			int sceneWidth = 12;
 			int seasonWidth = 12;
-			int priceWidth = 12;
+//			int priceWidth = 12;
 			int ratingWidth = 12;
 			String header = String.join("｜",
 					StringUtil.padRight("No.", noWidth),
@@ -316,7 +316,7 @@ public class Main {
 					StringUtil.padRight("色", colorWidth),
 					StringUtil.padRight("シーン", sceneWidth),
 					StringUtil.padRight("季節", seasonWidth),
-					StringUtil.padRight("価格", priceWidth),
+//					StringUtil.padRight("価格", priceWidth),
 					StringUtil.padRight("お気に入り度", ratingWidth));
 			System.out.println(header);
 
@@ -326,7 +326,7 @@ public class Main {
 				String colorName = getColorName(clothes.getColor());
 				String sceneName = getSceneName(clothes.getScene());
 				String seasonName = getSeasonName(clothes.getSeason());
-				String priceStr = (clothes.getPrice() != null) ? String.valueOf(clothes.getPrice()) : "";
+//				String priceStr = (clothes.getPrice() != null) ? String.valueOf(clothes.getPrice()) : "";
 				String ratingStr = (clothes.getRating() != null) ? String.valueOf(clothes.getRating()) : "";
 
 				String row = String.join("｜",
@@ -336,7 +336,7 @@ public class Main {
 						StringUtil.padRight(colorName, colorWidth),
 						StringUtil.padRight(sceneName, sceneWidth),
 						StringUtil.padRight(seasonName, seasonWidth),
-						StringUtil.padRight(priceStr, priceWidth),
+//						StringUtil.padRight(priceStr, priceWidth),
 						StringUtil.padRight(ratingStr, ratingWidth));
 				System.out.println(row);
 				no++;
@@ -387,7 +387,7 @@ public class Main {
 			int colorWidth = 12;
 			int sceneWidth = 12;
 			int seasonWidth = 12;
-			int priceWidth = 12;
+//			int priceWidth = 12;
 			int ratingWidth = 12;
 			String header = String.join("｜",
 					StringUtil.padRight("No.", noWidth),
@@ -396,7 +396,7 @@ public class Main {
 					StringUtil.padRight("色", colorWidth),
 					StringUtil.padRight("シーン", sceneWidth),
 					StringUtil.padRight("季節", seasonWidth),
-					StringUtil.padRight("価格", priceWidth),
+//					StringUtil.padRight("価格", priceWidth),
 					StringUtil.padRight("お気に入り度", ratingWidth));
 			System.out.println(header);
 
@@ -406,7 +406,7 @@ public class Main {
 				String colorName = getColorName(clothes.getColor());
 				String sceneName = getSceneName(clothes.getScene());
 				String seasonName = getSeasonName(clothes.getSeason());
-				String priceStr = (clothes.getPrice() != null) ? String.valueOf(clothes.getPrice()) : "";
+//				String priceStr = (clothes.getPrice() != null) ? String.valueOf(clothes.getPrice()) : "";
 				String ratingStr = (clothes.getRating() != null) ? String.valueOf(clothes.getRating()) : "";
 
 				String row = String.join("｜",
@@ -416,7 +416,7 @@ public class Main {
 						StringUtil.padRight(colorName, colorWidth),
 						StringUtil.padRight(sceneName, sceneWidth),
 						StringUtil.padRight(seasonName, seasonWidth),
-						StringUtil.padRight(priceStr, priceWidth),
+//						StringUtil.padRight(priceStr, priceWidth),
 						StringUtil.padRight(ratingStr, ratingWidth));
 				System.out.println(row);
 				no++;
