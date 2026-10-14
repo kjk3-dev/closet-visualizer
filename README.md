@@ -22,6 +22,10 @@
 
 https://github.com/user-attachments/assets/e9d14dcb-ce19-4cc1-ba10-2ad2b7587801
 
+持ち物のごみ箱移動・復元・完全削除動作のデモ動画です。
+
+https://github.com/user-attachments/assets/ff0e08d9-0519-4174-a3a4-ba6bed9c0b5f
+
 ## 使用技術
 
 - Java 17（Eclipse Temurin）
