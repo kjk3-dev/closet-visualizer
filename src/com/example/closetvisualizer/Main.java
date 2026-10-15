@@ -262,32 +262,27 @@ public class Main {
 		System.out.println("価格：" + (price != null ? price : ""));
 		System.out.println("お気に入り度：" + (rating != null ? rating : ""));
 		System.out.println("メモ：" + (memo != null ? memo : ""));
-		while (true) {
-			System.out.print("このアイテムを持ち物に登録しますか？(y/n): ");
-			String confirm = scanner.nextLine();
-			confirm = Normalizer.normalize(confirm, Normalizer.Form.NFKC);
-			if (confirm.equalsIgnoreCase("y")) {
-				Clothes clothes = new Clothes();
-				clothes.setName(name);
-				clothes.setCategoryId(categoryId);
-				clothes.setColor(color);
-				clothes.setScene(scene);
-				clothes.setSeason(season);
-				clothes.setSize(size);
-				clothes.setPrice(price);
-				clothes.setRating(rating);
-				clothes.setMemo(memo);
 
-				ClothesDao clothesDao = new ClothesDao();
-				clothesDao.insert(clothes);
-				System.out.println("\nアイテム名：「" + name + "」の登録が完了しました。");
-				break; // TOPメニューに遷移
-			} else if (confirm.equalsIgnoreCase("n")) {
-				System.out.println("\n新規登録をキャンセルしました。");
-				break;
-			} else {
-				System.out.println("\nこの入力は無効です。");
-			}
+		String prompt = "このアイテムを持ち物に登録しますか？";
+		if (confirmYesNo(scanner, prompt)) {
+			Clothes clothes = new Clothes();
+			clothes.setName(name);
+			clothes.setCategoryId(categoryId);
+			clothes.setColor(color);
+			clothes.setScene(scene);
+			clothes.setSeason(season);
+			clothes.setSize(size);
+			clothes.setPrice(price);
+			clothes.setRating(rating);
+			clothes.setMemo(memo);
+
+			ClothesDao clothesDao = new ClothesDao();
+			clothesDao.insert(clothes);
+			System.out.println("\nアイテム名：「" + name + "」の登録が完了しました。");
+			// TOPメニューに戻る
+		} else {
+			System.out.println("\n新規登録をキャンセルしました。");
+			// TOPメニューに戻る
 		}
 	}
 
@@ -307,7 +302,7 @@ public class Main {
 			int colorWidth = 12;
 			int sceneWidth = 12;
 			int seasonWidth = 12;
-//			int priceWidth = 12;
+			//			int priceWidth = 12;
 			int ratingWidth = 12;
 			String header = String.join("｜",
 					StringUtil.padRight("No.", noWidth),
@@ -316,7 +311,7 @@ public class Main {
 					StringUtil.padRight("色", colorWidth),
 					StringUtil.padRight("シーン", sceneWidth),
 					StringUtil.padRight("季節", seasonWidth),
-//					StringUtil.padRight("価格", priceWidth),
+					//					StringUtil.padRight("価格", priceWidth),
 					StringUtil.padRight("お気に入り度", ratingWidth));
 			System.out.println(header);
 
@@ -326,7 +321,7 @@ public class Main {
 				String colorName = getColorName(clothes.getColor());
 				String sceneName = getSceneName(clothes.getScene());
 				String seasonName = getSeasonName(clothes.getSeason());
-//				String priceStr = (clothes.getPrice() != null) ? String.valueOf(clothes.getPrice()) : "";
+				//				String priceStr = (clothes.getPrice() != null) ? String.valueOf(clothes.getPrice()) : "";
 				String ratingStr = (clothes.getRating() != null) ? String.valueOf(clothes.getRating()) : "";
 
 				String row = String.join("｜",
@@ -336,7 +331,7 @@ public class Main {
 						StringUtil.padRight(colorName, colorWidth),
 						StringUtil.padRight(sceneName, sceneWidth),
 						StringUtil.padRight(seasonName, seasonWidth),
-//						StringUtil.padRight(priceStr, priceWidth),
+						//						StringUtil.padRight(priceStr, priceWidth),
 						StringUtil.padRight(ratingStr, ratingWidth));
 				System.out.println(row);
 				no++;
@@ -358,8 +353,8 @@ public class Main {
 				int selectedNo = Integer.parseInt(input);
 				if (selectedNo >= 1 && selectedNo <= clothesList.size()) {
 					Clothes selected = clothesList.get(selectedNo - 1);
-					boolean backToList = showClothesDetail(scanner, selected, selectedNo, categories);
-					if (backToList) {
+					boolean needsRefresh = showClothesDetail(scanner, selected, selectedNo, categories);
+					if (needsRefresh) {
 						clothesList = clothesDao.findAll();
 					}
 				} else {
@@ -387,7 +382,7 @@ public class Main {
 			int colorWidth = 12;
 			int sceneWidth = 12;
 			int seasonWidth = 12;
-//			int priceWidth = 12;
+			//			int priceWidth = 12;
 			int ratingWidth = 12;
 			String header = String.join("｜",
 					StringUtil.padRight("No.", noWidth),
@@ -396,7 +391,7 @@ public class Main {
 					StringUtil.padRight("色", colorWidth),
 					StringUtil.padRight("シーン", sceneWidth),
 					StringUtil.padRight("季節", seasonWidth),
-//					StringUtil.padRight("価格", priceWidth),
+					//					StringUtil.padRight("価格", priceWidth),
 					StringUtil.padRight("お気に入り度", ratingWidth));
 			System.out.println(header);
 
@@ -406,7 +401,7 @@ public class Main {
 				String colorName = getColorName(clothes.getColor());
 				String sceneName = getSceneName(clothes.getScene());
 				String seasonName = getSeasonName(clothes.getSeason());
-//				String priceStr = (clothes.getPrice() != null) ? String.valueOf(clothes.getPrice()) : "";
+				//				String priceStr = (clothes.getPrice() != null) ? String.valueOf(clothes.getPrice()) : "";
 				String ratingStr = (clothes.getRating() != null) ? String.valueOf(clothes.getRating()) : "";
 
 				String row = String.join("｜",
@@ -416,7 +411,7 @@ public class Main {
 						StringUtil.padRight(colorName, colorWidth),
 						StringUtil.padRight(sceneName, sceneWidth),
 						StringUtil.padRight(seasonName, seasonWidth),
-//						StringUtil.padRight(priceStr, priceWidth),
+						//						StringUtil.padRight(priceStr, priceWidth),
 						StringUtil.padRight(ratingStr, ratingWidth));
 				System.out.println(row);
 				no++;
@@ -438,8 +433,8 @@ public class Main {
 				int selectedNo = Integer.parseInt(input);
 				if (selectedNo >= 1 && selectedNo <= trashList.size()) {
 					Clothes selected = trashList.get(selectedNo - 1);
-					boolean listChanged = showTrashDetail(scanner, selected, selectedNo, categories);
-					if (listChanged) {
+					boolean needsRefresh = showTrashDetail(scanner, selected, selectedNo, categories);
+					if (needsRefresh) {
 						trashList = clothesDao.findTrashed();
 					}
 				} else {
@@ -484,33 +479,19 @@ public class Main {
 			case "1":
 				editClothes(scanner, clothes, categories);
 				break;
-			case "2":
-				boolean isYes = false;
-				while (true) {
-					System.out.println();
-					System.out.println("=== 削除確認 ===");
-					System.out.print("アイテム名：「" + clothes.getName() + "」" + "をごみ箱に移動しますか？(y/n): ");
-					String confirm = scanner.nextLine();
-					confirm = Normalizer.normalize(confirm, Normalizer.Form.NFKC);
-					if (confirm.equalsIgnoreCase("y")) {
-						isYes = true;
-						break;
-					} else if (confirm.equalsIgnoreCase("n")) {
-						isYes = false;
-						break;
-					} else {
-						System.out.println("\nこの入力は無効です。");
-
-					}
-				}
-				if (isYes) {
+			case "2": {
+				System.out.println();
+				System.out.println("=== 削除確認 ===");
+				String prompt = "アイテム名：「" + clothes.getName() + "」" + "をごみ箱に移動しますか？";
+				if (confirmYesNo(scanner, prompt)) {
 					clothesDao.moveToTrash(clothes.getId());
 					System.out.println("\nアイテムをごみ箱に移動しました。");
-					return true; // ごみ箱一覧画面に遷移
+					return true; // 一覧再取得あり、持ち物一覧画面に戻る
 				} else {
 					System.out.println("\nごみ箱への移動をキャンセルしました。");
-					break; // switch抜けで詳細画面に遷移
+					break; // 持ち物詳細画面再表示
 				}
+			}
 			case "3":
 				return false;
 			default:
@@ -856,61 +837,33 @@ public class Main {
 			String input = scanner.nextLine();
 			input = Normalizer.normalize(input, Normalizer.Form.NFKC);
 
-			boolean isYes = false;
-			String confirm = null;
 			switch (input) {
-			case "1":
-				while (true) {
-					System.out.println();
-					System.out.println("=== 復元確認 ===");
-					System.out.print("アイテム名：「" + clothes.getName() + "」" + "を持ち物に戻しますか？(y/n): ");
-					confirm = scanner.nextLine();
-					confirm = Normalizer.normalize(confirm, Normalizer.Form.NFKC);
-
-					if (confirm.equalsIgnoreCase("y")) {
-						isYes = true;
-						break;
-					} else if (confirm.equalsIgnoreCase("n")) {
-						isYes = false;
-						break;
-					} else {
-						System.out.println("\nこの入力は無効です。");
-					}
-				}
-				if (isYes) {
+			case "1": {
+				System.out.println();
+				System.out.println("=== 復元確認 ===");
+				String prompt = "アイテム名：「" + clothes.getName() + "」" + "を持ち物に戻しますか？";
+				if (confirmYesNo(scanner, prompt)) {
 					clothesDao.restore(clothes.getId());
 					System.out.println("\nごみ箱からアイテムを復元しました。");
-					return true;// ごみ箱一覧画面に遷移
+					return true; // 一覧再取得あり、ごみ箱一覧画面に戻る
 				} else {
 					System.out.println("\nごみ箱からの復元をキャンセルしました。");
-					break; // switch抜けで詳細画面に遷移
+					break; // ごみ箱詳細画面再表示
 				}
-
-			case "2":
-				while (true) {
-					System.out.println();
-					System.out.println("=== 完全削除確認 ===");
-					System.out.print("アイテム名：「" + clothes.getName() + "」" + "の登録内容を完全削除しますか？完全削除すると元に戻せません。(y/n): ");
-					confirm = scanner.nextLine();
-					confirm = Normalizer.normalize(confirm, Normalizer.Form.NFKC);
-					if (confirm.equalsIgnoreCase("y")) {
-						isYes = true;
-						break;
-					} else if (confirm.equalsIgnoreCase("n")) {
-						isYes = false;
-						break;
-					} else {
-						System.out.println("\nこの入力は無効です。");
-					}
-				}
-				if (isYes) {
+			}
+			case "2": {
+				System.out.println();
+				System.out.println("=== 完全削除確認 ===");
+				String prompt = "アイテム名：「" + clothes.getName() + "」" + "の登録内容を完全削除しますか？完全削除すると元に戻せません。";
+				if (confirmYesNo(scanner, prompt)) {
 					clothesDao.deletePermanently(clothes.getId());
 					System.out.println("\n完全削除が完了しました。");
-					return true;
+					return true; // 一覧再取得あり、ごみ箱一覧画面に戻る
 				} else {
 					System.out.println("\n完全削除をキャンセルしました。");
-					break;
+					break; // ごみ箱詳細画面再表示
 				}
+			}
 
 			case "3":
 				return false;
@@ -986,6 +939,21 @@ public class Main {
 		if (seasonValue == null)
 			return "";
 		return seasonValue;
+	}
+
+	private static boolean confirmYesNo(Scanner scanner, String prompt) {
+		while (true) {
+			System.out.print(prompt + "(y/n): ");
+			String confirm = scanner.nextLine();
+			confirm = Normalizer.normalize(confirm, Normalizer.Form.NFKC);
+			if (confirm.equalsIgnoreCase("y")) {
+				return true;
+			} else if (confirm.equalsIgnoreCase("n")) {
+				return false;
+			} else {
+				System.out.println("\nこの入力は無効です。");
+			}
+		}
 	}
 
 }
