@@ -76,21 +76,9 @@ public class Main {
 		System.out.println();
 		System.out.println("=== 新規登録 ===");
 
-		String name = null;
-		while (true) {
-			System.out.print("アイテム名を入力してください（30文字以内）: ");
-			String nameInput = scanner.nextLine();
-			if (nameInput.isEmpty()) {
-				System.out.println("\nこの項目の入力は必須です。");
-				continue;
-			}
-			if (nameInput.length() <= 30) {
-				name = nameInput;
-				break;
-			} else {
-				System.out.println("\nこの入力は無効です。");
-			}
-		}
+		int nameMaxLength = 30;
+		String nameInputPrompt = "アイテム名を入力してください（" + nameMaxLength + "文字以内）";
+		String name = inputFreeText(scanner, nameInputPrompt, nameMaxLength, true);
 
 		System.out.println();
 		int categoryId = 0;
@@ -180,20 +168,9 @@ public class Main {
 		}
 
 		System.out.println();
-		String size = null;
-		while (true) {
-			System.out.print("サイズを入力してください（5文字以内）。登録しない場合はそのままEnterを押下してください: ");
-			String sizeInput = scanner.nextLine();
-			if (sizeInput.isEmpty()) {
-				break;
-			}
-			if (sizeInput.length() <= 5) {
-				size = sizeInput;
-				break;
-			} else {
-				System.out.println("\nこの入力は無効です。");
-			}
-		}
+		int sizeMaxLength = 5;
+		String sizeInputPrompt = "サイズを入力してください（" + sizeMaxLength + "文字以内）。登録しない場合はそのままEnterを押下してください";
+		String size = inputFreeText(scanner, sizeInputPrompt, sizeMaxLength, false);
 
 		System.out.println();
 		Integer price = null;
@@ -238,17 +215,9 @@ public class Main {
 		}
 
 		System.out.println();
-		String memo = null;
-		while (true) {
-			System.out.print("メモを入力してください（400文字以内）。登録しない場合はそのままEnterを押下してください: ");
-			String memoInput = scanner.nextLine();
-			if (memoInput.length() <= 400) {
-				memo = memoInput;
-				break;
-			} else {
-				System.out.println("\nこの入力は無効です。");
-			}
-		}
+		int memoMaxLength = 400;
+		String memoInputPrompt = "メモを入力してください（" + memoMaxLength + "文字以内）。登録しない場合はそのままEnterを押下してください";
+		String memo = inputFreeText(scanner, memoInputPrompt, memoMaxLength, false);
 
 		System.out.println();
 		System.out.println("=== 新規登録確認 ===");
@@ -950,6 +919,25 @@ public class Main {
 				return true;
 			} else if (confirm.equalsIgnoreCase("n")) {
 				return false;
+			} else {
+				System.out.println("\nこの入力は無効です。");
+			}
+		}
+	}
+
+	private static String inputFreeText(Scanner scanner, String prompt, int maxLength, boolean required) {
+		while (true) {
+			System.out.print(prompt + ": ");
+			String input = scanner.nextLine();
+			if (input.isEmpty()) {
+				if (required) {
+					System.out.println("\nこの項目の入力は必須です。");
+					continue;
+				}
+				return null;
+			}
+			if (input.length() <= maxLength) {
+				return input;
 			} else {
 				System.out.println("\nこの入力は無効です。");
 			}
