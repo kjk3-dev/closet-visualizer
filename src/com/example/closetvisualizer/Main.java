@@ -12,6 +12,7 @@ import com.example.closetvisualizer.model.Clothes;
 import com.example.closetvisualizer.model.Color;
 import com.example.closetvisualizer.model.Scene;
 import com.example.closetvisualizer.model.Season;
+import com.example.closetvisualizer.util.InputUtil;
 import com.example.closetvisualizer.util.StringUtil;
 
 public class Main {
@@ -81,7 +82,7 @@ public class Main {
 		System.out.println("=== 新規登録 ===");
 
 		String nameInputPrompt = "アイテム名を入力してください（" + NAME_MAX_LENGTH + "文字以内）";
-		String name = inputFreeText(scanner, nameInputPrompt, NAME_MAX_LENGTH, true);
+		String name = InputUtil.inputFreeText(scanner, nameInputPrompt, NAME_MAX_LENGTH, true);
 
 		System.out.println();
 		int categoryId = 0;
@@ -172,7 +173,7 @@ public class Main {
 
 		System.out.println();
 		String sizeInputPrompt = "サイズを入力してください（" + SIZE_MAX_LENGTH + "文字以内）。登録しない場合はそのままEnterを押下してください";
-		String size = inputFreeText(scanner, sizeInputPrompt, SIZE_MAX_LENGTH, false);
+		String size = InputUtil.inputFreeText(scanner, sizeInputPrompt, SIZE_MAX_LENGTH, false);
 
 		System.out.println();
 		Integer price = null;
@@ -218,7 +219,7 @@ public class Main {
 
 		System.out.println();
 		String memoInputPrompt = "メモを入力してください（" + MEMO_MAX_LENGTH + "文字以内）。登録しない場合はそのままEnterを押下してください";
-		String memo = inputFreeText(scanner, memoInputPrompt, MEMO_MAX_LENGTH, false);
+		String memo = InputUtil.inputFreeText(scanner, memoInputPrompt, MEMO_MAX_LENGTH, false);
 
 		System.out.println();
 		System.out.println("=== 新規登録確認 ===");
@@ -234,7 +235,7 @@ public class Main {
 		System.out.println("メモ：" + (memo != null ? memo : ""));
 
 		String prompt = "このアイテムを持ち物に登録しますか？";
-		if (confirmYesNo(scanner, prompt)) {
+		if (InputUtil.confirmYesNo(scanner, prompt)) {
 			Clothes clothes = new Clothes();
 			clothes.setName(name);
 			clothes.setCategoryId(categoryId);
@@ -453,7 +454,7 @@ public class Main {
 				System.out.println();
 				System.out.println("=== 削除確認 ===");
 				String prompt = "アイテム名：「" + clothes.getName() + "」" + "をごみ箱に移動しますか？";
-				if (confirmYesNo(scanner, prompt)) {
+				if (InputUtil.confirmYesNo(scanner, prompt)) {
 					clothesDao.moveToTrash(clothes.getId());
 					System.out.println("\nアイテムをごみ箱に移動しました。");
 					return true; // 一覧再取得あり、持ち物一覧画面に戻る
@@ -813,7 +814,7 @@ public class Main {
 				System.out.println();
 				System.out.println("=== 復元確認 ===");
 				String prompt = "アイテム名：「" + clothes.getName() + "」" + "を持ち物に戻しますか？";
-				if (confirmYesNo(scanner, prompt)) {
+				if (InputUtil.confirmYesNo(scanner, prompt)) {
 					clothesDao.restore(clothes.getId());
 					System.out.println("\nごみ箱からアイテムを復元しました。");
 					return true; // 一覧再取得あり、ごみ箱一覧画面に戻る
@@ -826,7 +827,7 @@ public class Main {
 				System.out.println();
 				System.out.println("=== 完全削除確認 ===");
 				String prompt = "アイテム名：「" + clothes.getName() + "」" + "の登録内容を完全削除しますか？完全削除すると元に戻せません。";
-				if (confirmYesNo(scanner, prompt)) {
+				if (InputUtil.confirmYesNo(scanner, prompt)) {
 					clothesDao.deletePermanently(clothes.getId());
 					System.out.println("\n完全削除が完了しました。");
 					return true; // 一覧再取得あり、ごみ箱一覧画面に戻る
@@ -910,40 +911,6 @@ public class Main {
 		if (seasonValue == null)
 			return "";
 		return seasonValue;
-	}
-
-	private static boolean confirmYesNo(Scanner scanner, String prompt) {
-		while (true) {
-			System.out.print(prompt + "(y/n): ");
-			String confirm = scanner.nextLine();
-			confirm = Normalizer.normalize(confirm, Normalizer.Form.NFKC);
-			if (confirm.equalsIgnoreCase("y")) {
-				return true;
-			} else if (confirm.equalsIgnoreCase("n")) {
-				return false;
-			} else {
-				System.out.println("\nこの入力は無効です。");
-			}
-		}
-	}
-
-	private static String inputFreeText(Scanner scanner, String prompt, int maxLength, boolean required) {
-		while (true) {
-			System.out.print(prompt + ": ");
-			String input = scanner.nextLine();
-			if (input.isEmpty()) {
-				if (required) {
-					System.out.println("\nこの項目の入力は必須です。");
-					continue;
-				}
-				return null;
-			}
-			if (input.length() <= maxLength) {
-				return input;
-			} else {
-				System.out.println("\nこの入力は無効です。");
-			}
-		}
 	}
 
 }
