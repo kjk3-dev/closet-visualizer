@@ -16,6 +16,10 @@ import com.example.closetvisualizer.util.StringUtil;
 
 public class Main {
 
+	private static final int NAME_MAX_LENGTH = 30;
+	private static final int SIZE_MAX_LENGTH = 5;
+	private static final int MEMO_MAX_LENGTH = 400;
+
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		boolean isRunning = true;
@@ -76,9 +80,8 @@ public class Main {
 		System.out.println();
 		System.out.println("=== 新規登録 ===");
 
-		int nameMaxLength = 30;
-		String nameInputPrompt = "アイテム名を入力してください（" + nameMaxLength + "文字以内）";
-		String name = inputFreeText(scanner, nameInputPrompt, nameMaxLength, true);
+		String nameInputPrompt = "アイテム名を入力してください（" + NAME_MAX_LENGTH + "文字以内）";
+		String name = inputFreeText(scanner, nameInputPrompt, NAME_MAX_LENGTH, true);
 
 		System.out.println();
 		int categoryId = 0;
@@ -168,9 +171,8 @@ public class Main {
 		}
 
 		System.out.println();
-		int sizeMaxLength = 5;
-		String sizeInputPrompt = "サイズを入力してください（" + sizeMaxLength + "文字以内）。登録しない場合はそのままEnterを押下してください";
-		String size = inputFreeText(scanner, sizeInputPrompt, sizeMaxLength, false);
+		String sizeInputPrompt = "サイズを入力してください（" + SIZE_MAX_LENGTH + "文字以内）。登録しない場合はそのままEnterを押下してください";
+		String size = inputFreeText(scanner, sizeInputPrompt, SIZE_MAX_LENGTH, false);
 
 		System.out.println();
 		Integer price = null;
@@ -215,9 +217,8 @@ public class Main {
 		}
 
 		System.out.println();
-		int memoMaxLength = 400;
-		String memoInputPrompt = "メモを入力してください（" + memoMaxLength + "文字以内）。登録しない場合はそのままEnterを押下してください";
-		String memo = inputFreeText(scanner, memoInputPrompt, memoMaxLength, false);
+		String memoInputPrompt = "メモを入力してください（" + MEMO_MAX_LENGTH + "文字以内）。登録しない場合はそのままEnterを押下してください";
+		String memo = inputFreeText(scanner, memoInputPrompt, MEMO_MAX_LENGTH, false);
 
 		System.out.println();
 		System.out.println("=== 新規登録確認 ===");
@@ -525,13 +526,13 @@ public class Main {
 		System.out.println("=== アイテム名編集 ===");
 		while (true) {
 			System.out.println("現在：" + clothes.getName());
-			System.out.print("変更後のアイテム名を入力してください（30文字以内）。変更しない場合はそのままEnterを押下してください: ");
+			System.out.print("変更後のアイテム名を入力してください（" + NAME_MAX_LENGTH + "文字以内）。変更しない場合はそのままEnterを押下してください: ");
 			String input = scanner.nextLine();
 
 			if (input.isEmpty()) {
 				return false;
 			}
-			if (input.length() <= 30) {
+			if (input.length() <= NAME_MAX_LENGTH) {
 				clothes.setName(input);
 				return true;
 			} else {
@@ -663,8 +664,8 @@ public class Main {
 		while (true) {
 			String currentSizeLabel = (clothes.getSize() != null) ? "現在：" + clothes.getSize() : "現在登録なし";
 			System.out.println(currentSizeLabel);
-			System.out.print("変更後のサイズを入力してください（5文字以内）。変更しない場合はそのままEnterを押下、未設定の状態に戻したい場合は大文字でCLEARのみを入力してください: ");
-
+			System.out.print("変更後のサイズを入力してください（" + SIZE_MAX_LENGTH
+					+ "文字以内）。変更しない場合はそのままEnterを押下、未設定の状態に戻したい場合は大文字でCLEARのみを入力してください: ");
 			String input = scanner.nextLine();
 			String normalizedInput = Normalizer.normalize(input, Normalizer.Form.NFKC);
 
@@ -676,7 +677,7 @@ public class Main {
 				return true;
 			}
 
-			if (input.length() <= 5) {
+			if (input.length() <= SIZE_MAX_LENGTH) {
 				clothes.setSize(input);
 				return true;
 			} else {
@@ -756,7 +757,8 @@ public class Main {
 		while (true) {
 			String currentMemoLabel = (clothes.getMemo() != null) ? "現在：" + clothes.getMemo() : "現在登録なし";
 			System.out.println(currentMemoLabel);
-			System.out.print("変更後のメモを入力してください（400文字以内）。変更しない場合はそのままEnterを押下、未設定の状態に戻したい場合は大文字でCLEARのみを入力してください: ");
+			System.out.print("変更後のメモを入力してください（" + MEMO_MAX_LENGTH
+					+ "文字以内）。変更しない場合はそのままEnterを押下、未設定の状態に戻したい場合は大文字でCLEARのみを入力してください: ");
 			String input = scanner.nextLine();
 			String normalizedInput = Normalizer.normalize(input, Normalizer.Form.NFKC);
 			if (input.isEmpty()) {
@@ -767,7 +769,7 @@ public class Main {
 				return true;
 			}
 
-			if (input.length() <= 400) {
+			if (input.length() <= MEMO_MAX_LENGTH) {
 				clothes.setMemo(input);
 				return true;
 			} else {
