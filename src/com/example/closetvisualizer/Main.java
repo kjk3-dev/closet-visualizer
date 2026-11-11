@@ -37,41 +37,35 @@ public class Main {
 			String input = scanner.nextLine();
 			input = Normalizer.normalize(input, Normalizer.Form.NFKC);
 
-			switch (input) {
-			case "1":
-				try {
+			try {
+				switch (input) {
+				case "1":
 					registerClothes(scanner);
-				} catch (SQLException e) {
-					System.out.println("\n処理中にエラーが発生しました。");
-					e.printStackTrace();
-				}
-				break;
-			case "2":
-				try {
+					break;
+				case "2":
 					showClothesList(scanner);
-				} catch (SQLException e) {
-					System.out.println("\n処理中にエラーが発生しました。");
-					e.printStackTrace();
-				}
-				break;
-			case "3":
-				try {
+					break;
+				case "3":
 					showTrashList(scanner);
-				} catch (SQLException e) {
-					System.out.println("\n処理中にエラーが発生しました。");
-					e.printStackTrace();
+					break;
+				case "4":
+					System.out.println("\n終了します");
+					isRunning = false;
+					break;
+				default:
+					System.out.println("\nこの入力は無効です。");
 				}
-				break;
-			case "4":
-				System.out.println("\n終了します");
-				isRunning = false;
-				break;
-			default:
-				System.out.println("\nこの入力は無効です。");
+			} catch (SQLException e) {
+				System.out.println("\n処理中にエラーが発生しました。");
+				e.printStackTrace();
+			} catch (Exception e) {
+				System.out.println("\n処理中にエラーが発生しました。");
+				e.printStackTrace();
 			}
 		}
 
 		scanner.close();
+
 	}
 
 	private static void registerClothes(Scanner scanner) throws SQLException {
@@ -187,8 +181,12 @@ public class Main {
 			}
 			try {
 				int intPrice = Integer.parseInt(priceInput);
-				price = intPrice;
-				break;
+				if (intPrice >= 0) {
+					price = intPrice;
+					break;
+				} else {
+					System.out.println("\nこの入力は無効です。");
+				}
 			} catch (NumberFormatException e) {
 				System.out.println("\nこの入力は無効です。");
 			}
@@ -421,6 +419,8 @@ public class Main {
 			throws SQLException {
 		ClothesDao clothesDao = new ClothesDao();
 
+		boolean needsRefresh = false;
+
 		while (true) {
 			String categoryName = getCategoryName(clothes.getCategoryId(), categories);
 			String priceStr = (clothes.getPrice() != null) ? String.valueOf(clothes.getPrice()) : "";
@@ -449,6 +449,7 @@ public class Main {
 			switch (input) {
 			case "1":
 				editClothes(scanner, clothes, categories);
+				needsRefresh = true; // 一覧画面に戻る。再度ソートするため、再取得して一覧表示
 				break;
 			case "2": {
 				System.out.println();
@@ -464,7 +465,7 @@ public class Main {
 				}
 			}
 			case "3":
-				return false;
+				return needsRefresh; // 一覧画面に戻る、必要に応じて一覧再取得
 			default:
 				System.out.println("\nこの入力は無効です。");
 			}
